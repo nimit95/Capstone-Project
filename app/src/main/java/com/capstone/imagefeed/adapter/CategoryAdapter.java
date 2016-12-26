@@ -1,6 +1,8 @@
 package com.capstone.imagefeed.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.capstone.imagefeed.R;
+import com.capstone.imagefeed.activity.ImageListActivity;
 
 /**
  * Created by Nimit Agg on 27-12-2016.
@@ -54,7 +57,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    context.startActivity(new Intent(context, ImageListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
             });
         }

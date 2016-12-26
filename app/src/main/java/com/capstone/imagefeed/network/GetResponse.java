@@ -17,6 +17,6 @@ public class GetResponse {
                 .url(url)
                 .build();
         Response response = client.newCall(request).execute();
-        return response.body().toString();
+        return response.body().string();
     }
 }
