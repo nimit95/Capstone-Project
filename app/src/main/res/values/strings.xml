@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Image Feed</string>
+    <string name="latest">Latest</string>
+    <string name="newyear">New Year</string>
+    <string name="christmas">Christmas</string>
+    <string name="birthday">Birthday</string>
+    <string name="custom">Custom Search</string>
+    <string name="holi">Holi</string>
+    <string name="image">image</string>
+    <string name="category">Image Category</string>
+</resources>
