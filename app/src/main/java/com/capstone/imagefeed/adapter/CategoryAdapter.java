@@ -1,10 +1,14 @@
 package com.capstone.imagefeed.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.capstone.imagefeed.R;
 
 /**
@@ -13,7 +17,13 @@ import com.capstone.imagefeed.R;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private String[] name;
+    private String[] name,imageids;
+    private Context context;
+    public CategoryAdapter(Context context, String[] name,String[] imageids){
+        this.context = context ;
+        this.name = name;
+        this.imageids = imageids;
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -23,17 +33,30 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewholder, int position) {
-
+        viewholder.headline.setText(name[position]);
+      //  Glide.with(context)
+        //        .load(imageids[position])
+          //      .into(viewholder.thumbnail);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return name.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView headline;
+        ImageView thumbnail;
+        ViewHolder(View itemView) {
             super(itemView);
+            headline = (TextView) itemView.findViewById(R.id.name);
+            thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
     }
 }
