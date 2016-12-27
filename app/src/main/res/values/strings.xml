@@ -8,4 +8,5 @@
     <string name="holi">Holi</string>
     <string name="image">image</string>
     <string name="category">Image Category</string>
+    <string name="no_connection">No internet connection!</string>
 </resources>

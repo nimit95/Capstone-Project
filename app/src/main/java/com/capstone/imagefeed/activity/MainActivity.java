@@ -10,16 +10,19 @@ import com.capstone.imagefeed.adapter.CategoryAdapter;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    private String[] name;
+    private String[] name,queryName;
+    private int[] imageids;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         name= new String[]{getString(R.string.latest), getString(R.string.newyear), getString(R.string.birthday)};
+        queryName = new String[]{"Latest","New Year","Birthday"};
+        imageids = new int[]{};
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new CategoryAdapter(getApplicationContext(),name,name));
+        recyclerView.setAdapter(new CategoryAdapter(getApplicationContext(),name,imageids,queryName));
     }
 }

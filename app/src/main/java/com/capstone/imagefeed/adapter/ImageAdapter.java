@@ -1,6 +1,7 @@
 package com.capstone.imagefeed.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.capstone.imagefeed.R;
+import com.capstone.imagefeed.activity.ImageDetail;
 import com.capstone.imagefeed.models.Image;
 
 import java.util.List;
@@ -55,7 +57,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    context.startActivity(new Intent(context, ImageDetail.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        .putExtra("image_detail",imageData.get(getAdapterPosition())));
                 }
             });
         }

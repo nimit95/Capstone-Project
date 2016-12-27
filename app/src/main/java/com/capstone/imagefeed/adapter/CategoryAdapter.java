@@ -18,12 +18,14 @@ import com.capstone.imagefeed.activity.ImageListActivity;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private String[] name,imageids;
+    private String[] name,queryName;
+    private int[] thumbnailImageId;
     private Context context;
-    public CategoryAdapter(Context context, String[] name,String[] imageids){
+    public CategoryAdapter(Context context, String[] name,int[] thumbnailImageId, String[] queryName){
         this.context = context ;
         this.name = name;
-        this.imageids = imageids;
+        this.thumbnailImageId = thumbnailImageId;
+        this.queryName = queryName;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,7 +57,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.startActivity(new Intent(context, ImageListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    context.startActivity(new Intent(context, ImageListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .putExtra("category", queryName[getAdapterPosition()]));
                 }
             });
         }
