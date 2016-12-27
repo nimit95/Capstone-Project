@@ -11,10 +11,9 @@ import static net.simonvt.schematic.annotation.DataType.Type.*;
  * Created by Nimit Agg on 27-12-2016.
  */
 public interface ListColumns {
-    @DataType(INTEGER) @AutoIncrement
-    String _ID = "_id";
+    @DataType(INTEGER) @PrimaryKey @AutoIncrement String _ID = "_id";
 
-    @DataType(INTEGER) @PrimaryKey String ID = "id";
+    @DataType(INTEGER) String ID = "id";
 
     @DataType(INTEGER) @NotNull String Downloads = "downloads" ;
 
