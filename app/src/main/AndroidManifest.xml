@@ -19,6 +19,10 @@
         </activity>
         <activity android:name=".activity.ImageListActivity" />
         <activity android:name=".activity.ImageDetail"></activity>
+        <provider
+            android:authorities="com.capstone.imagefeed.database.ImageProvider"
+            android:name="com.capstone.imagefeed.database.generated.ImageProvider"
+            android:exported="true"/>
     </application>
 
 </manifest>

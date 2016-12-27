@@ -9,4 +9,5 @@
     <string name="image">image</string>
     <string name="category">Image Category</string>
     <string name="no_connection">No internet connection!</string>
+    <string name="fav">Mark Favorite</string>
 </resources>

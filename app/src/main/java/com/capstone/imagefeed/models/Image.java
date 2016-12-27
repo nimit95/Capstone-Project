@@ -12,6 +12,8 @@ public class Image implements Parcelable{
     private String previewURL;
     private String webformatURL;
 
+    private long id;
+
     protected Image(Parcel in) {
         downloads = in.readInt();
         previewURL = in.readString();
@@ -30,6 +32,10 @@ public class Image implements Parcelable{
         return webformatURL;
     }
 
+    public long getId() {
+        return id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -40,6 +46,7 @@ public class Image implements Parcelable{
         parcel.writeInt(downloads);
         parcel.writeString(previewURL);
         parcel.writeString(webformatURL);
+        parcel.writeLong(id);
     }
 
     public static final Creator<Image> CREATOR = new Creator<Image>() {
