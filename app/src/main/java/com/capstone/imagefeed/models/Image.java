@@ -1,7 +1,10 @@
 package com.capstone.imagefeed.models;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.capstone.imagefeed.database.ListColumns;
 
 /**
  * Created by Nimit Agg on 27-12-2016.
@@ -9,15 +12,32 @@ import android.os.Parcelable;
 
 public class Image implements Parcelable{
     private int downloads;
+
     private String previewURL;
     private String webformatURL;
-
     private long id;
-
+    public  Image(){}
     protected Image(Parcel in) {
         downloads = in.readInt();
         previewURL = in.readString();
         webformatURL = in.readString();
+        id = in.readLong();
+    }
+
+    public void setDownloads(int downloads) {
+        this.downloads = downloads;
+    }
+
+    public void setPreviewURL(String previewURL) {
+        this.previewURL = previewURL;
+    }
+
+    public void setWebformatURL(String webformatURL) {
+        this.webformatURL = webformatURL;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getDownloads() {
@@ -60,4 +80,13 @@ public class Image implements Parcelable{
             return new Image[size];
         }
     };
+
+    public static Image fromCursor(Cursor cursor) {
+        Image image = new Image();
+        image.setId(cursor.getLong(cursor.getColumnIndex(ListColumns.ID)));
+        image.setDownloads(cursor.getInt(cursor.getColumnIndex(ListColumns.Downloads)));
+        image.setPreviewURL(cursor.getString(cursor.getColumnIndex(ListColumns.PreviewUrl)));
+        image.setWebformatURL(cursor.getString(cursor.getColumnIndex(ListColumns.WebformatUrl)));
+        return image;
+    }
 }

@@ -3,6 +3,7 @@ package com.capstone.imagefeed.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +58,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.startActivity(new Intent(context, ImageDetail.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                        .putExtra("image_detail",imageData.get(getAdapterPosition())));
+                 //   Log.e("jn",imageData.get(getAdapterPosition()).getId() + "");
+                    Intent intent = new Intent(context, ImageDetail.class)
+                            .putExtra("image_detail",imageData.get(getAdapterPosition())).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
                 }
             });
         }

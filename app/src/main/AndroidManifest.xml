@@ -18,11 +18,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ImageListActivity" />
-        <activity android:name=".activity.ImageDetail"></activity>
+        <activity android:name=".activity.ImageDetail" />
+
         <provider
+            android:name=".database.generated.ImageProvider"
             android:authorities="com.capstone.imagefeed.database.ImageProvider"
-            android:name="com.capstone.imagefeed.database.generated.ImageProvider"
-            android:exported="true"/>
+            android:exported="true" />
+
+        <activity android:name=".activity.FavoriteActivity"></activity>
     </application>
 
 </manifest>
