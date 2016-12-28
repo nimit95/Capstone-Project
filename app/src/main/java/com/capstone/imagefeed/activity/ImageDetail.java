@@ -1,8 +1,11 @@
 package com.capstone.imagefeed.activity;
 
+import android.app.DownloadManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,8 +26,9 @@ import static android.R.drawable.btn_star_big_on;
 public class ImageDetail extends AppCompatActivity {
     private Image imageDetail;
     private ImageView image;
-    private FloatingActionButton addFavorite;
+    private FloatingActionButton addFavorite,download,share;
     private boolean favState;
+    private DownloadManager downloadManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,9 @@ public class ImageDetail extends AppCompatActivity {
         imageDetail = intent.getParcelableExtra("image_detail");
         image = (ImageView) findViewById(R.id.image);
         addFavorite = (FloatingActionButton) findViewById(R.id.favorite);
+        download = (FloatingActionButton) findViewById(R.id.download);
+        share = (FloatingActionButton) findViewById(R.id.share);
+        downloadManager = (DownloadManager) getSystemService(getApplicationContext().DOWNLOAD_SERVICE);
         if(getContentResolver().query(ImageProvider.Lists.LISTS,
                 new String[]{"id"},
                 ListColumns.ID+"=?", new String[]{String.valueOf(imageDetail.getId())}, null).getCount() == 0) {
@@ -70,6 +77,23 @@ public class ImageDetail extends AppCompatActivity {
                     Cursor cursor = getContentResolver().query(ImageProvider.Lists.LISTS, null, null,null,null);
                     Log.e("jnvdv",cursor.getCount()+"");
                 }
+            }
+        });
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse(imageDetail.getWebformatURL());
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request.setVisibleInDownloadsUi(true);
+                request.allowScanningByMediaScanner();
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,String.valueOf(imageDetail.getId()));
+                downloadManager.enqueue(request);
+            }
+        });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
