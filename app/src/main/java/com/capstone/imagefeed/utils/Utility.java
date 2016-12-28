@@ -36,7 +36,24 @@ public class Utility {
             return true;
         }
     }
+    public static boolean isStoragePermissionGranted2(Activity activity) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (activity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("permission","Permission is granted");
+                return true;
+            } else {
 
+                Log.v("permission","Permission is revoked");
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("permision","Permission is granted");
+            return true;
+        }
+    }
     public static String[] getCategory(Context context) {
        return new String[]{context.getString(R.string.latest),
                 context.getString(R.string.newyear),
