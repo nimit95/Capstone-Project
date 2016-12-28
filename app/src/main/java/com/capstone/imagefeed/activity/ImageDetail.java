@@ -3,6 +3,7 @@ package com.capstone.imagefeed.activity;
 import android.app.DownloadManager;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import com.capstone.imagefeed.R;
 import com.capstone.imagefeed.database.ImageProvider;
 import com.capstone.imagefeed.database.ListColumns;
 import com.capstone.imagefeed.models.Image;
+import com.capstone.imagefeed.utils.Utility;
 
 import static android.R.drawable.btn_star_big_off;
 import static android.R.drawable.btn_star_big_on;
@@ -29,6 +31,7 @@ public class ImageDetail extends AppCompatActivity {
     private FloatingActionButton addFavorite,download,share;
     private boolean favState;
     private DownloadManager downloadManager;
+    private DownloadManager.Request request;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +86,13 @@ public class ImageDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Uri uri = Uri.parse(imageDetail.getWebformatURL());
-                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request = new DownloadManager.Request(uri);
                 request.setVisibleInDownloadsUi(true);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                 request.allowScanningByMediaScanner();
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,String.valueOf(imageDetail.getId()));
-                downloadManager.enqueue(request);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,uri.getLastPathSegment());
+               if(Utility.isStoragePermissionGranted(ImageDetail.this))
+                    downloadManager.enqueue(request);
             }
         });
         share.setOnClickListener(new View.OnClickListener() {
@@ -96,5 +101,17 @@ public class ImageDetail extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Log.v("permission","Permission: "+permissions[0]+ "was "+grantResults[0]);
+            downloadManager.enqueue(request);
+            //resume tasks needing this permission
+        }
+        if(grantResults[0]== PackageManager.PERMISSION_DENIED){
+            Snackbar.make(findViewById(R.id.activity_image_detail),getString(R.string.permission),Snackbar.LENGTH_SHORT).show();
+        }
     }
 }

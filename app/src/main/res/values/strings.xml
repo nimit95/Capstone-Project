@@ -14,4 +14,10 @@
     <string name="favorite">Favorite</string>
     <string name="download">Download</string>
     <string name="share">Share</string>
+    <string name="permission">Give Permission to download</string>
+    <string name="heading">Heading</string>
+    <string name="loading">Loading</string>
+    <string name="aniversary">Anniversary</string>
+    <string name="invitation_message">For downloading and sharing Images</string>
+    <string name="invitation_title">Download my Capstone Project</string>
 </resources>
