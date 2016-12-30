@@ -24,20 +24,18 @@ public class NewAppWidget extends AppWidgetProvider {
         for (int i = 0; i < appWidgetIds.length; ++i) {
             //mServiceIntent = new Intent(context, StockIntentService.class);
             //context.startService(mServiceIntent);
-            Intent intent=new Intent(context,ItemWidgetList.class);
+            Intent intent = new Intent(context, ItemWidgetList.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
-            rv.setRemoteAdapter(R.id.listView,intent);
+            rv.setRemoteAdapter(R.id.listView, intent);
             rv.setEmptyView(R.id.listView, R.id.empty_view);
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds[i],R.id.listView);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds[i], R.id.listView);
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
 
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
-
-
 
 
 }

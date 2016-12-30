@@ -16,7 +16,6 @@ import com.capstone.imagefeed.utils.Utility;
  */
 
 
-
 public class ItemWidgetList extends RemoteViewsService {
 
     @Override

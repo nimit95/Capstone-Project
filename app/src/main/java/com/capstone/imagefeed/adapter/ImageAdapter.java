@@ -20,7 +20,7 @@ import java.util.List;
  * Created by Nimit Agg on 27-12-2016.
  */
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private List<Image> imageData;
     private Context context;
@@ -49,18 +49,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         return imageData.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView image;
+
         public ViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.preview_image);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                 //   Log.e("jn",imageData.get(getAdapterPosition()).getId() + "");
+                    //   Log.e("jn",imageData.get(getAdapterPosition()).getId() + "");
                     Intent intent = new Intent(context, ImageDetail.class)
-                            .putExtra("image_detail",imageData.get(getAdapterPosition())).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            .putExtra("image_detail", imageData.get(getAdapterPosition())).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
             });

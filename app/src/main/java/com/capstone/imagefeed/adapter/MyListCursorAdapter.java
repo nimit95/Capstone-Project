@@ -22,18 +22,20 @@ import java.util.List;
  * Created by Nimit Agg on 28-12-2016.
  */
 
-public class MyListCursorAdapter extends CursorRecyclerViewAdapter<MyListCursorAdapter.ViewHolder>{
+public class MyListCursorAdapter extends CursorRecyclerViewAdapter<MyListCursorAdapter.ViewHolder> {
 
     Context context;
     List<Image> imageList;
-    public MyListCursorAdapter(Context context, Cursor cursor){
-        super(context,cursor);
+
+    public MyListCursorAdapter(Context context, Cursor cursor) {
+        super(context, cursor);
         this.context = context;
         imageList = new ArrayList<Image>();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView image;
+
         public ViewHolder(View view) {
             super(view);
             image = (ImageView) itemView.findViewById(R.id.preview_image);
@@ -41,7 +43,7 @@ public class MyListCursorAdapter extends CursorRecyclerViewAdapter<MyListCursorA
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ImageDetail.class)
-                            .putExtra("image_detail",imageList.get(getAdapterPosition())).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            .putExtra("image_detail", imageList.get(getAdapterPosition())).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
             });

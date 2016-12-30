@@ -11,16 +11,17 @@ import okhttp3.Response;
  */
 
 public class GetResponse {
-    private OkHttpClient client=new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient();
+
     public String run(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         Response response = client.newCall(request).execute();
-        if(response.isSuccessful())
+        if (response.isSuccessful())
             return response.body().string();
         else
-            return null ;
+            return null;
     }
 
 }

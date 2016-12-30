@@ -18,27 +18,28 @@ import com.google.android.gms.appinvite.AppInviteInvitation;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    private String[] name,queryName;
+    private String[] name, queryName;
     private int[] imageids;
-    private String TAG="MainActivity";
-    public static final int REQUEST_INVITE=420;
+    private String TAG = "MainActivity";
+    public static final int REQUEST_INVITE = 420;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        name= Utility.getCategory(getApplicationContext());
+        name = Utility.getCategory(getApplicationContext());
         queryName = Utility.getSearchQuery(getApplicationContext());
         imageids = Utility.getImagethumbIds(getApplicationContext());
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new CategoryAdapter(getApplicationContext(),name,imageids,queryName));
+        recyclerView.setAdapter(new CategoryAdapter(getApplicationContext(), name, imageids, queryName));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main,menu);
+        getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.favorite:
-                startActivity(new Intent(MainActivity.this,FavoriteActivity.class));
+                startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
                 return true;
             case R.id.share:
                 onInviteClicked();
@@ -54,12 +55,14 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     private void onInviteClicked() {
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                 .setMessage(getString(R.string.invitation_message))
                 .build();
         startActivityForResult(intent, REQUEST_INVITE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

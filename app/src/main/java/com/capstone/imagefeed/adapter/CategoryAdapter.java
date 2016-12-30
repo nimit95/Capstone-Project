@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.capstone.imagefeed.R;
+import com.capstone.imagefeed.activity.CustomSearchActivity;
 import com.capstone.imagefeed.activity.ImageListActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -21,20 +22,22 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private FirebaseAnalytics mFirebaseAnalytics;
-    private String[] name,queryName;
+    private String[] name, queryName;
     private int[] thumbnailImageId;
     private Context context;
-    public CategoryAdapter(Context context, String[] name,int[] thumbnailImageId, String[] queryName){
-        this.context = context ;
+
+    public CategoryAdapter(Context context, String[] name, int[] thumbnailImageId, String[] queryName) {
+        this.context = context;
         this.name = name;
         this.thumbnailImageId = thumbnailImageId;
         this.queryName = queryName;
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_card_view,parent, false);
+                .inflate(R.layout.category_card_view, parent, false);
         return new ViewHolder(v);
     }
 
@@ -54,6 +57,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView headline;
         ImageView thumbnail;
+
         ViewHolder(View itemView) {
             super(itemView);
             headline = (TextView) itemView.findViewById(R.id.name);
@@ -66,8 +70,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name[getAdapterPosition()]);
                     bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-                    context.startActivity(new Intent(context, ImageListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra("category", queryName[getAdapterPosition()]));
+                    if (getAdapterPosition() != getItemCount() - 1)
+                        context.startActivity(new Intent(context, ImageListActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .putExtra("category", queryName[getAdapterPosition()]));
+                    else
+                        context.startActivity(new Intent(context, CustomSearchActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
             });
         }

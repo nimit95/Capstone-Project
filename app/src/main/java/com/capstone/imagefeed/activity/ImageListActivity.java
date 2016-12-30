@@ -22,6 +22,7 @@ import java.io.IOException;
 public class ImageListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +30,18 @@ public class ImageListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         recyclerView.setHasFixedSize(true);
-        Intent intent= getIntent() ;
-
+        Intent intent = getIntent();
         new ShowImageList().execute(intent.getStringExtra("category"));
     }
-    private class ShowImageList extends AsyncTask<String,Void,String>{
+
+    private class ShowImageList extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... searchquery) {
-            Log.e("ok",searchquery[0]);
+            Log.e("ok", searchquery[0]);
             GetResponse getResponse = new GetResponse();
             try {
-                if(searchquery[0].compareToIgnoreCase("Latest")!=0)
+                if (searchquery[0].compareToIgnoreCase("Latest") != 0)
                     return getResponse.run(Constants.apiBaseUrl + Constants.searchQuery + searchquery[0]);
                 else
                     return getResponse.run(Constants.apiBaseUrl);
@@ -59,9 +60,8 @@ public class ImageListActivity extends AppCompatActivity {
                 ImageList imageList = gson.fromJson(s, ImageList.class);
                 Log.e("inj", imageList.getHits().get(0).getPreviewURL());
                 recyclerView.setAdapter(new ImageAdapter(getApplicationContext(), imageList.getHits()));
-            }
-            else
-                Toast.makeText(getApplicationContext(),getString(R.string.no_connection),Toast.LENGTH_LONG).show();
+            } else
+                Toast.makeText(getApplicationContext(), getString(R.string.no_connection), Toast.LENGTH_LONG).show();
         }
     }
 }

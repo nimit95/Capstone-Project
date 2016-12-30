@@ -34,12 +34,13 @@ import static android.R.drawable.btn_star_big_on;
 public class ImageDetail extends AppCompatActivity {
     private Image imageDetail;
     private ImageView image;
-    private FloatingActionButton addFavorite,download,share;
+    private FloatingActionButton addFavorite, download, share;
     private boolean favState;
     final Bitmap[] bitmap = new Bitmap[1];
     private String path;
     private DownloadManager downloadManager;
     private DownloadManager.Request request;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,17 +52,16 @@ public class ImageDetail extends AppCompatActivity {
         download = (FloatingActionButton) findViewById(R.id.download);
         share = (FloatingActionButton) findViewById(R.id.share);
         downloadManager = (DownloadManager) getSystemService(getApplicationContext().DOWNLOAD_SERVICE);
-        if(getContentResolver().query(ImageProvider.Lists.LISTS,
+        if (getContentResolver().query(ImageProvider.Lists.LISTS,
                 new String[]{"id"},
-                ListColumns.ID+"=?", new String[]{String.valueOf(imageDetail.getId())}, null).getCount() == 0) {
+                ListColumns.ID + "=?", new String[]{String.valueOf(imageDetail.getId())}, null).getCount() == 0) {
             addFavorite.setImageResource(btn_star_big_off);
             favState = false;
-        }
-        else {
+        } else {
             addFavorite.setImageResource(btn_star_big_on);
             favState = true;
         }
-     //   Log.e("jn",imageDetail.getId()+"");
+        //   Log.e("jn",imageDetail.getId()+"");
         Glide.with(getApplicationContext())
                 .load(imageDetail.getWebformatURL())
                 .into(image);
@@ -70,23 +70,22 @@ public class ImageDetail extends AppCompatActivity {
             public void onClick(View view) {
                 if (!favState) {
                     addFavorite.setImageResource(btn_star_big_on);
-                    Snackbar.make(findViewById(R.id.activity_image_detail),getString(R.string.add_fav),Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.activity_image_detail), getString(R.string.add_fav), Snackbar.LENGTH_SHORT).show();
                     ContentValues contentValues = new ContentValues();
                     contentValues.put("id", imageDetail.getId());
                     contentValues.put("downloads", imageDetail.getDownloads());
                     contentValues.put("previewurl", imageDetail.getPreviewURL());
                     contentValues.put("webformaturl", imageDetail.getWebformatURL());
                     getContentResolver().insert(ImageProvider.Lists.LISTS, contentValues);
-                    Cursor cursor = getContentResolver().query(ImageProvider.Lists.LISTS, null, null,null,null);
-                    Log.e("jnvdv",cursor.getCount()+"");
+                    Cursor cursor = getContentResolver().query(ImageProvider.Lists.LISTS, null, null, null, null);
+                    Log.e("jnvdv", cursor.getCount() + "");
                     favState = true;
-                }
-                else{
+                } else {
                     favState = false;
                     addFavorite.setImageResource(btn_star_big_off);
-                    getContentResolver().delete(ImageProvider.Lists.LISTS, ListColumns.ID + " = " + imageDetail.getId(),null);
-                    Cursor cursor = getContentResolver().query(ImageProvider.Lists.LISTS, null, null,null,null);
-                    Log.e("jnvdv",cursor.getCount()+"");
+                    getContentResolver().delete(ImageProvider.Lists.LISTS, ListColumns.ID + " = " + imageDetail.getId(), null);
+                    Cursor cursor = getContentResolver().query(ImageProvider.Lists.LISTS, null, null, null, null);
+                    Log.e("jnvdv", cursor.getCount() + "");
                 }
             }
         });
@@ -98,8 +97,8 @@ public class ImageDetail extends AppCompatActivity {
                 request.setVisibleInDownloadsUi(true);
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                 request.allowScanningByMediaScanner();
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,uri.getLastPathSegment());
-               if(Utility.isStoragePermissionGranted(ImageDetail.this))
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uri.getLastPathSegment());
+                if (Utility.isStoragePermissionGranted(ImageDetail.this))
                     downloadManager.enqueue(request);
             }
         });
@@ -108,16 +107,16 @@ public class ImageDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                   // Drawable drawable = image.getDrawable();
+                    // Drawable drawable = image.getDrawable();
 
-                    Thread t = new Thread(){
+                    Thread t = new Thread() {
                         @Override
                         public void run() {
                             try {
                                 bitmap[0] = Glide.with(getApplicationContext())
                                         .load(imageDetail.getWebformatURL())
                                         .asBitmap()
-                                        .into(500,500)
+                                        .into(500, 500)
                                         .get();
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
@@ -127,7 +126,7 @@ public class ImageDetail extends AppCompatActivity {
                         }
                     };
                     t.start();
-                    if(Utility.isStoragePermissionGranted2(ImageDetail.this)) {
+                    if (Utility.isStoragePermissionGranted2(ImageDetail.this)) {
                         path = MediaStore.Images.Media.insertImage(getContentResolver(),
                                 bitmap[0], "Image Description", null);
 
@@ -144,26 +143,27 @@ public class ImageDetail extends AppCompatActivity {
                         //if(Utility.isStoragePermissionGranted(ImageDetail.this))
                         startActivity(Intent.createChooser(sharingIntent, "Share via").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     }
-                }catch (Exception e){
-                    Log.e("Error in sharing image",e.getMessage().toString()+" ");
+                } catch (Exception e) {
+                    Log.e("Error in sharing image", e.getMessage().toString() + " ");
                 }
             }
         });
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults[0]== PackageManager.PERMISSION_GRANTED ){
-            Log.v("permission","Permission: "+permissions[0]+ "was "+grantResults[0]);
-            if(requestCode==1)
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.v("permission", "Permission: " + permissions[0] + "was " + grantResults[0]);
+            if (requestCode == 1)
                 downloadManager.enqueue(request);
             else
                 path = MediaStore.Images.Media.insertImage(getContentResolver(),
                         bitmap[0], "Image Description", null);
             //resume tasks needing this permission
         }
-        if(grantResults[0]== PackageManager.PERMISSION_DENIED){
-            Snackbar.make(findViewById(R.id.activity_image_detail),getString(R.string.permission),Snackbar.LENGTH_SHORT).show();
+        if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            Snackbar.make(findViewById(R.id.activity_image_detail), getString(R.string.permission), Snackbar.LENGTH_SHORT).show();
         }
     }
 }

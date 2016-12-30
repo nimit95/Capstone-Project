@@ -8,9 +8,9 @@ import net.simonvt.schematic.annotation.Table;
  */
 @Database(version = DatabaseDefinition.VERSION)
 public class DatabaseDefinition {
-        public static final int VERSION = 1;
+    public static final int VERSION = 1;
 
-        @Table(ListColumns.class)
-        public static final String LISTS = "lists";
+    @Table(ListColumns.class)
+    public static final String LISTS = "lists";
 
 }

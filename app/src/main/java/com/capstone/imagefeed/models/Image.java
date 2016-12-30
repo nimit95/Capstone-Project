@@ -10,13 +10,16 @@ import com.capstone.imagefeed.database.ListColumns;
  * Created by Nimit Agg on 27-12-2016.
  */
 
-public class Image implements Parcelable{
+public class Image implements Parcelable {
     private int downloads;
 
     private String previewURL;
     private String webformatURL;
     private long id;
-    public  Image(){}
+
+    public Image() {
+    }
+
     protected Image(Parcel in) {
         downloads = in.readInt();
         previewURL = in.readString();

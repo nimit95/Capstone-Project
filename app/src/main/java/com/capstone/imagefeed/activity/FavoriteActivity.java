@@ -14,23 +14,24 @@ import com.capstone.imagefeed.R;
 import com.capstone.imagefeed.adapter.MyListCursorAdapter;
 import com.capstone.imagefeed.database.ImageProvider;
 
-public class FavoriteActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class FavoriteActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private RecyclerView recyclerView;
     private MyListCursorAdapter myListCursorAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-        getSupportLoaderManager().initLoader(1,null,this);
+        getSupportLoaderManager().initLoader(1, null, this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        CursorLoader cursorLoader = new CursorLoader(getApplicationContext(), ImageProvider.Lists.LISTS,null,null,null,null);
+        CursorLoader cursorLoader = new CursorLoader(getApplicationContext(), ImageProvider.Lists.LISTS, null, null, null, null);
         return cursorLoader;
     }
 
